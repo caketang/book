@@ -94,7 +94,7 @@ function  proObj(o){
 1. 每次创建实例都创建一遍方法
 
 ### 6.0寄生组合式继承
-组合式继承有个缺点 会调用两次Parent函数， 所以采用寄生组合式继承可以规避调用两次的问题
+组合式继承有个缺点 会调用两次Parent函数， 我们可以采用寄生组合式继承可以规避调用两次的问题
 ``` javascript
 function Parent (name) {
     this.name = name;

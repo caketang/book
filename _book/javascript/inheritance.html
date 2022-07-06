@@ -57,6 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="scope.html" />
+    
     
     <link rel="prev" href="README.md" />
     
@@ -120,6 +122,19 @@
             
                     
                     js继承
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="scope.html">
+            
+                <a href="scope.html">
+            
+                    
+                    js作用域链
             
                 </a>
             
@@ -267,6 +282,7 @@ function  proObj(o){
 <li>&#x6BCF;&#x6B21;&#x521B;&#x5EFA;&#x5B9E;&#x4F8B;&#x90FD;&#x521B;&#x5EFA;&#x4E00;&#x904D;&#x65B9;&#x6CD5;</li>
 </ol>
 <h3 id="60&#x5BC4;&#x751F;&#x7EC4;&#x5408;&#x5F0F;&#x7EE7;&#x627F;">6.0&#x5BC4;&#x751F;&#x7EC4;&#x5408;&#x5F0F;&#x7EE7;&#x627F;</h3>
+<p>&#x7EC4;&#x5408;&#x5F0F;&#x7EE7;&#x627F;&#x6709;&#x4E2A;&#x7F3A;&#x70B9; &#x4F1A;&#x8C03;&#x7528;&#x4E24;&#x6B21;Parent&#x51FD;&#x6570;&#xFF0C; &#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x91C7;&#x7528;&#x5BC4;&#x751F;&#x7EC4;&#x5408;&#x5F0F;&#x7EE7;&#x627F;&#x53EF;&#x4EE5;&#x89C4;&#x907F;&#x8C03;&#x7528;&#x4E24;&#x6B21;&#x7684;&#x95EE;&#x9898;</p>
 <pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Parent</span> (<span class="hljs-params">name</span>) </span>{
     <span class="hljs-keyword">this</span>.name = name;
     <span class="hljs-keyword">this</span>.colors = [<span class="hljs-string">&apos;red&apos;</span>, <span class="hljs-string">&apos;blue&apos;</span>, <span class="hljs-string">&apos;green&apos;</span>];
@@ -320,10 +336,14 @@ Child.prototype = <span class="hljs-keyword">new</span> F();
 
             
                 
-                <a href="README.md" class="navigation navigation-prev navigation-unique" aria-label="Previous page: JavaScript">
+                <a href="README.md" class="navigation navigation-prev " aria-label="Previous page: JavaScript">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
+                
+                <a href="scope.html" class="navigation navigation-next " aria-label="Next page: js作用域链">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -332,7 +352,7 @@ Child.prototype = <span class="hljs-keyword">new</span> F();
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"js继承","level":"1.2.1","depth":2,"previous":{"title":"JavaScript","level":"1.2","depth":1,"path":"javascript/README.md","ref":"javascript/README.md","articles":[{"title":"js继承","level":"1.2.1","depth":2,"path":"javascript/inheritance.md","ref":"javascript/inheritance.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"javascript/inheritance.md","mtime":"2022-07-05T09:39:35.327Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-07-05T09:39:39.553Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"js继承","level":"1.2.1","depth":2,"next":{"title":"js作用域链","level":"1.2.2","depth":2,"path":"javascript/scope.md","ref":"javascript/scope.md","articles":[]},"previous":{"title":"JavaScript","level":"1.2","depth":1,"path":"javascript/README.md","ref":"javascript/README.md","articles":[{"title":"js继承","level":"1.2.1","depth":2,"path":"javascript/inheritance.md","ref":"javascript/inheritance.md","articles":[]},{"title":"js作用域链","level":"1.2.2","depth":2,"path":"javascript/scope.md","ref":"javascript/scope.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"javascript/inheritance.md","mtime":"2022-07-05T10:07:23.127Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-07-06T08:11:05.582Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
