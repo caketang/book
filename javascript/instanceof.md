@@ -1,5 +1,7 @@
 __instanceof__
 
+检测构造函数的prototype属性是否出现在实例的原型链上
+
 ```js
 
 function new_instance_of(leftVaule, rightVaule) { 
