@@ -1,5 +1,10 @@
 __事件循环机制__
  [一看就懂](https://segmentfault.com/q/1010000016147496)
+
+ 总方针是先同步再异步，异步中先微任务，在宏任务。
++ macro-task(宏任务)：setTimeout，setInterval
++ micro-task(微任务)：Promise.then/catch，process.nextTic
+
 执行栈 与 事件队列
 微任务 宏任务
 
@@ -106,6 +111,17 @@ async function async1(){
    console.log('async1 start')
    return RESOLVE(async2()).then(()=>console.log('async1 end'))
 }
+最新版本优化后：
+function async1(){
+    console.log('async1 start');
+    const p = async2();
+    return Promise.resolve(p)
+        .then(() => {
+            console.log('async1 end')
+        });
+}
+
+
 
 问题关键就出在这个 RESOLVE 上了，要引用以下知乎上贺师俊大佬的回答：
 
