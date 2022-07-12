@@ -76,21 +76,21 @@ then 需要重点理解
 
       }
       let rejected = (val) => {
-                try {
-                    if (!isFuction(onRejected)) {
-                        onRejectenNext(val)
+            try {
+                if (!isFuction(onRejected)) {
+                    onRejectenNext(val)
+                } else {
+                    let res = onRejected(val)
+                    if (res instanceof MyPromise) {
+                        res.then(onFulfillenNext, onRejectenNext)
                     } else {
-                        let res = onRejected(val)
-                        if (res instanceof MyPromise) {
-                            res.then(onFulfillenNext, onRejectenNext)
-                        } else {
-                            onRejectenNext(res)
-                        }
+                        onRejectenNext(res)
                     }
-                } catch (error) {
-                    onRejectenNext(error)
                 }
+            } catch (error) {
+                onRejectenNext(error)
             }
+        }
             switch (_status) {
                 case PENDING:
                     this._fuilfilledQuenes.push(fulfiled)
@@ -108,6 +108,18 @@ then 需要重点理解
             }
         
     })
+
+    catch(onRejected){
+      return this.then(undefined, onRejected)
+    }
+     static reselove(value) {
+        if (value instanceof MyPromise) return value
+        return new MyPromise((resolve) => resolve(value))
+    }
+    static reject(err) {
+        if (err instanceof MyPromise) return err
+        return new MyPromise((resolve, reject) => reject(value))
+    }
   }
 
 
