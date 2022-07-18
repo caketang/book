@@ -52,10 +52,10 @@
 6. window.open + window.opener
 
 
-广播模式：Broadcast Channe / Service Worker / LocalStorage + StorageEvent
-共享存储模式：Shared Worker / IndexedDB / cookie
-口口相传模式：window.open + window.opener
-基于服务端：Websocket / Comet / SSE 等
++ 广播模式：Broadcast Channe / Service Worker / LocalStorage + StorageEvent
++ 共享存储模式：Shared Worker / IndexedDB / cookie
++ 口口相传模式：window.open + window.opener
++ 基于服务端：Websocket / Comet / SSE 等
 
 
 非同源的则用  iframe
