@@ -28,4 +28,4 @@ Sequence number(顺序号码) Acknowledge number(确认号码)
 
 1. 第一次握手 主机A发送syn=1 随机产生的 seq number= 123456数据包 发送给服务器，主机B由syn1知道 主机A要联机
 2. 第二次握手 主机B收到确认联机信息后生成 ack = seq number+1    syn = 1 ack =1 随机产生seq number = 12121数据包 发送给主机A
-3. 第三次握手 主机A收到 检查ack 是否与第一次发送的seq number正常 及ack =1 若正确 则向 主机b发送 ack = 主机b的seq number+1 ack=1主机b收到seq值确认正确 ack=1 则建立连接
+3. 第三次握手 主机A收到 检查ack 是否与第一次发送的seq number正常 及ack =1 若正确 则向 主机b发送 ack number= 主机b的seq number+1 ack=1主机b收到seq值确认正确 ack=1 则建立连接
