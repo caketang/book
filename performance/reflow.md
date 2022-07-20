@@ -6,7 +6,7 @@
 + 改变元素位置 尺寸 内容 字体大小 
 + 改变浏览器窗口大小 resize
 + 激活css伪类 ：hover
-+ 设置style属性
++ 设置style属性 因为通过设置style属性改变结点样式的话，每一次设置都会触发一次reflow
 + 查询某些属性或调用某些计算方法：offsetWidth、offsetHeight等，除此之外，当我们调用 getComputedStyle方法，或者IE里的 currentStyle 时，也会触发重排，原理是一样的，都为求一个“即时性”和“准确性”。
 1. 全局重排
 2. 局部重排
