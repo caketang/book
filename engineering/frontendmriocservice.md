@@ -1,5 +1,5 @@
 # ![前端微服务](https://juejin.cn/post/6898268972178178061)
-1. js沙箱  子应用之间相互不影响 。 全局变量事件处理
+1. js沙箱  子应用之间相互不影响 。 全局变量事件处理 SnapshotSandbox  LegacySandbox ProxySandbox
 2. css 隔离
 3. html entry 
 4. config entry 配置每个子应用的js和css 
@@ -64,4 +64,42 @@ qiankun基本上可以称为单页版的iframe，具有沙箱隔离及资源预�
 EMP作为最年轻微前端解决方案，也是吸收了许多web优秀特性才诞生的，它在实现微前端的基础上，扩充了跨应用状态共享、跨框架组件调用、远程拉取ts声明文件、动态更新微应用等能力。同时，细心的小伙伴应该已经发现，EMP能做到第三方依赖的共享，使代码尽可能地重复利用，减少加载的内容。
 
 
+```js
+ class SnapshotSandBox {
+    windowSandshot = {}
+    modifyPropMap = {}
+    active(){
+      for(const prop in window){
+        this.windowSandshot[prop] = window[prop]
 
+      }
+      Object.keys(this.modifyPropMap).forEach(prop=>{
+        window[prop] = this.modifyPropMap[prop]
+      })
+    }
+    inactive(){
+      for(const prop in window){
+        if(window[prop] != this.windowSandshot[prop]){
+          this.modifyPropMap[prop] = window[prop]
+          window[prop] = this.windowSandshot[prop]
+        }
+      }
+    }
+   
+
+}
+ // 验证:
+let snapshotSandBox = new SnapshotSandBox();
+snapshotSandBox.active();
+window.city = 'Beijing';
+console.log("window.city-01:", window.city);
+snapshotSandBox.inactive();
+console.log("window.city-02:", window.city);
+snapshotSandBox.active();
+console.log("window.city-03:", window.city);
+snapshotSandBox.inactive();
+
+
+
+
+```
