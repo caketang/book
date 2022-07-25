@@ -94,7 +94,10 @@
             if (!depMap) return
             const deps = depMap.get(key)
             if (deps) {
-                deps.forEach(dep => dep())
+                deps.forEach(dep => {
+                  dep()
+                  console.log(dep)
+                })
             }
         }
         const obj = reactive({ a: 'a', b: { c: 1 } })
