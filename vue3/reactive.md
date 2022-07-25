@@ -15,3 +15,12 @@ export function reactive(target: object) {
 }
 ```
 `reactive` 通过createReactiveObject函数产生一个proxy 针对不同的数据类型给定了不同的处理方法
+
+export const mutableHandlers: ProxyHandler<object> = {
+  get,
+  set,
+  deleteProperty,
+  has,
+  ownKeys
+}
+vue3 用以上函数 可以针对get set delete in 操作符拦截
