@@ -50,6 +50,7 @@ function creatReactiveEffect(fn){
 
 
 function track(target, key){
+    console.log('effectStack.length',effectStack.length)
     const effect = effectStack[effectStack.length - 1]
 
     if(effect){
@@ -77,3 +78,24 @@ function trigger(target, key){
     }
 
 }
+
+function ref(raw: any):Object {
+    const r = {
+        get value(){
+            track(r, 'value')
+        },
+        set value (newVal){
+            raw = newVal
+            trigger(r, 'value')
+        }
+    }
+    return r
+}
+
+function computed(getter){
+    let result = ref()
+    effect(()=> result = getter())
+    return result
+}
+
+
