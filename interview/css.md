@@ -177,3 +177,23 @@ a标签有四种状态：链接访问前、链接访问后、鼠标滑过、激�
 也就不存在覆盖的问题。
 
 ```
+#### 8.CSS3新增伪类
+```
+ (1) elem:nth-child(n) 选择父元素下的第n个子元素，并且elem标签为子元素的名称 n为第几个子元素
+ (2) elem:nth-last-child(n) 作用同上  不过从后面查找
+ (3) elem:last-child 选中最后一个子元素
+ (4) elem:only-child  如果elme是父元素的唯一子元素 则选中
+ (5) elem:nth-of-type(n) 选中父元素下第n个elme类型元素，n可以接受数字 或者函数
+ (6) elem:first-of-type 选中父元素下第一个elme元素类型
+ (7) elem:last-of-type 选中父元素下最后一个elme元素类型
+ (8) elem:only-of-type 如果父元素下的子元素只有一个elem类型元素 则选中该元素
+ (9) elem:empty 选中不包含子元素和内容的elem类型元素。
+ (10) elem:target 选中当前活动的元素
+(11) :not(elem)选择非elem元素的每个元素。
+ (12):enabled 控制表单控件的禁用状态。
+（13）:disabled	控制表单控件的禁用状态。
+(14) :checked单选框或复选框被选中。
+
+
+
+```
