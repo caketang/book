@@ -97,3 +97,12 @@ text-transform、direction、color
 
 
 ```
+回答
+```
+每一个属性都在定义中给出了是否有继承性， 一个具有继承性的属性会在没有给定指定值的时候， 会使用父元素的同属性的值
+一般具有继承性的属性 字体相关属性 fonstzie fontwight  文本相关的属性 color和text-align等
+表格的一些布局属性 列表属性list-style等 还有光标属性cursor 元素可见性 visibility
+当一个属性不是继承属性的时候，我们也可以通过将它的值设置为inherit来使它从父元素那获取同名的属性值来继承。
+
+
+```
