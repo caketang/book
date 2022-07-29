@@ -400,6 +400,8 @@ css{
 
 #### 16.css多列等高如何实现
 ```
+1. 利用padding-bottom 和 margin-bottom 正负值相抵 不会影响布局的特点  设置父容器设置超出隐藏（overflow:hidden） 这样父容器的高度就还是它里面的列没有设定padding-bottom时的高度，当它里面的任一列高度增加了，则父容器的高度被撑到里面最高那列的高度，其他比这列矮的列会用它们的padding-bottom补偿这部分高度差。
+
 
 
 ```
