@@ -401,7 +401,46 @@ css{
 #### 16.css多列等高如何实现
 ```
 1. 利用padding-bottom 和 margin-bottom 正负值相抵 不会影响布局的特点  设置父容器设置超出隐藏（overflow:hidden） 这样父容器的高度就还是它里面的列没有设定padding-bottom时的高度，当它里面的任一列高度增加了，则父容器的高度被撑到里面最高那列的高度，其他比这列矮的列会用它们的padding-bottom补偿这部分高度差。
-
-
-
+2. 利用table-cell所有单元格度相对的特性 来实现多列等高
+3. 利用flex布局中项目align-items属性默认为stretch，如果项目未设置高度或设为auto，将占满整个容器的高度
+的特性，来实现多列等高 。在pc端兼容性不是很好，在ie9以及ie9以下不支持。
 ```
+#### 17. 经常遇到的浏览器的兼容性有哪些？原因，解决方法是什么，常用 hack 的技巧？
+```
+1. png24位的图片在iE6浏览器上出现背景
+解决方案： 做成PNG8, 也可以引用一段脚本处理
+2. 浏览器默认的margin和padding不同
+解决方案：加一个全局的*{margin:0;padding:0;}来统一。
+3. IE6双边距bug：在IE6下，如果对元素设置了浮动，同时又设置了margin-left或
+margin-right，margin值会加倍。
+#box{float:left;width:10px;margin:0 0 0 10px;}
+
+这种情况ie会产生20px的距离
+解决方案： 在float标签样式控制中加入_display:inline, 将其转化为行内属性（_这个符号只有ie6会识别）
+
+4. 首先，巧妙的使用“\9”这一标记，将IE游览器从所有情况中分离出来。 接着，再次使用 "+" 将IE8和IE7、IE6分离开来，这样IE8已经独立识别。
+background: #f1ee18 /*所有识别*/
+.background: #f1ee18\9 /*ie 6 7 8识别*/
++background: #f1ee18 /*ie 6 7识别*/
+_background: #f1ee18 /*ie6 识别*/
+
+5. IE下，可以使用获取常规属性的方法来获取自定义属性，也可以使用getAttribute()获取自定义
+属性；Firefox下，只能使用getAttribute()获取自定义属性
+解决方法： 统一通过getAttribute()获取自定义属性。
+6. IE下，event对象有x、y属性，但是没有pageX、pageY属性;Firefox下，event对象有
+pageX、pageY属性，但是没有x、y属性。
+解决方法： 条件注释， 缺点是浏览器下可能会增加额外的http请求
+7. Chrome中文界面下默认会将小于12px的文本强制按照12px显示
+ 解决方法：
+ 2.还可以使用-webkit-transform:scale(0.5);注意-webkit-transform:scale(0.75);
+收缩的是整个span的大小，这时候，必须要将span转换成块元素，可以使用display：block/inline-block/...；
+
+8. 超链接访问后hover样式不会出现了 被点击访问过的超链接样式不再具有hover和active了
+解决方法： 改变css属性排序 L_V_H_A
+
+9.
+怪异模式问题：漏写DTD声明，Firefox仍然会按照标准模式来解析网页，但在IE中会触发怪异模
+式。为避免怪异模式给我们带来不必要的麻烦，最好养成书写DTD声明的好习惯。
+```
+
+#### 18. .li 与 li 之间有看不见的空白间隔是什么原因引起的？有什么解决办法？
