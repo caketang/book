@@ -443,4 +443,173 @@ pageX、pageY属性，但是没有x、y属性。
 式。为避免怪异模式给我们带来不必要的麻烦，最好养成书写DTD声明的好习惯。
 ```
 
-#### 18. .li 与 li 之间有看不见的空白间隔是什么原因引起的？有什么解决办法？
+#### 18.li 与 li 之间有看不见的空白间隔是什么原因引起的？有什么解决办法？
+```
+浏览器会把inline元素间的空白字符（空格、换行、Tab等）渲染成一个空格。而为了美观。我们通常是一个<li>放在一行，
+这导致<li>换行后产生换行字符，它变成一个空格，占用了一个字符的宽度。
+
+解决方法： 
+1. 为li设置float：left， 不足 有的容器不能设置浮动 如左右切换的焦点图
+2. 将所有li写在一行 不美观
+3. 将ul的字符尺寸设置为0 font-size:0, 不足 ul中的其他字符尺寸也被设置为0， 需要重新设置其他字符尺寸， 且在safar浏览器依旧会出现 最新版本好了
+4. 消除ul的字符间隔letter-sapceing: -8px; 不足 这也设置了li的字符间隔了因此将li的字符间隔设置为letter-spaceing: normal;
+```
+#### 19.为什么要初始化css样式
+```
+因为浏览器的兼容问题 不同的浏览器对有些标签的默认值不同  如果没对css初始化往往会出现浏览器直接的页面显示差异
+
+初始化样式 会对seo有一定影响 但鱼和熊掌不可兼得 力求最小的影响下进行初始化
+最简单的初始化
+*{
+  margin:0
+  padding:0
+}
+
+```
+#### 20. 什么是包含快  对于包含块的理解
+```
+包含块（containing）就是元素定位和计算的一个框
+
+1. 根元素 很多场景下可以堪称html 被称为初始包含块， 其尺寸等同于浏览器可视窗口的大小
+2. 对于其他元素， 如果该元素的position是realitve或者static 则包含快 由其最近的块容器祖先盒的content-box边界形成
+3. 如果元素position:fixed 则包含块是初始包含块
+4. 如果元素position:absolute，则“包含块”由最近的position不为static的祖先元素建立，具体方式如下：
+
+如果该祖先元素是inline元素 规则略微复杂：
+
+•假设给内联元素的前后各生成一个宽度为0的内联盒子（inline box），则这两个内联盒子的padding box外面的包
+围盒就是内联元素的“包含块”；
+•如果该内联元素被跨行分割了，那么“包含块”是未定义的，也就是CSS2.1规范并没有明确定义，浏览器自行发挥
+否则，“包含块”由该祖先的padding box边界形成。
+
+如果没有符合条件的祖先元素，则“包含块”是“初始包含块”。
+
+MDN回答更准确点：
+
+
+如果 position 属性为 static 、 relative 或 sticky，包含块可能由它的最近的祖先块元素（比如说 inline-block, block 或 list-item 元素）的内容区的边缘组成，也可能会建立格式化上下文 (比如说 a table container, flex container, grid container, 或者是 the block container 自身)。
+如果 position 属性为 absolute ，包含块就是由它的最近的 position 的值不是 static （也就是值为fixed, absolute, relative 或 sticky）的祖先元素的内边距区的边缘组成。
+如果 position 属性是 fixed，在连续媒体的情况下 (continuous media) 包含块是 viewport ,在分页媒体 (paged media) 下的情况下包含块是分页区域 (page area)。
+如果 position 属性是 absolute 或 fixed，包含块也可能是由满足以下条件的最近父级元素的内边距区的边缘组成的：
+transform 或 perspective 的值不是 none
+will-change 的值是 transform 或 perspective
+filter 的值不是 none 或 will-change 的值是 filter(只在 Firefox 下生效).
+contain 的值是 paint (例如: contain: paint;)
+
+contain 属性允许我们指定特定的 DOM 元素和它的子元素，让它们能够独立于整个 DOM 树结构之外。目的是能够让浏览器有能力只对部分元素进行重绘、重排，而不必每次都针对整个页面
+contain 可以控制页面的重绘与重排
+```
+
+#### 21.CSS 里的 visibility 属性有个 collapse 属性值是干嘛用的？在不同浏览器下以后什么区别？
+```
+1.对于一般元素 它的表现跟visibility: hidden 一样  元素是不可见的  但此时仍占用页面空间
+2. 但例外的是 如果这个元素是table相关元素， 例如table行 table group  table列  他的表现跟display：nono一样, 它们占用空间会释放/
+在不同浏览器下的区别：
+
+在谷歌浏览器里，使用collapse值和使用hidden值没有什么区别。
+
+在火狐浏览器、Opera和IE11里，使用collapse值的效果就如它的字面意思：table的行会消失，它的下面一行会补充它的位
+置。
+
+```
+
+#### 22.width:auto 和 width:100%的区别
+```
+一般而言
+width:100%会使元素box的宽度等于父元素的content box的宽度。
+
+width: auto会使元素撑满整个父元素，margin、border、padding、content区域会自动分配水平空间。
+
+
+```
+#### 23.绝对定位元素与非绝对定位元素的百分比计算的区别
+```
+绝对定位元素的高宽百分比是根据临近position不为 static 祖先元素的padding-box来计算的
+非绝对定位元素的宽高百分比则是相对于父元素的content-box来计算的
+
+```
+
+#### 24.简单介绍使用图片 base64 编码的优点和缺点。
+```
+base64编码是一种图片处理格式，通过特定的算法将图片编码成长字符串， 在页面上显示的时候 可以用一串长字符串代替图片的url属性
+优点
+1. 减少一个图片的http请求
+缺点：
+1. 根据base64编码原理 生成的大小比原文件大三分之一 。如果把大图片编码到html/css 造成体积增加 影响加载速度  还会增加浏览器对html或css文件解析渲染时间
+2. 使用base64无法直接缓存，要缓存只能缓存包含base64的文件，比如HTML或者CSS，这相比与直接缓存图片的效果要
+差很多。
+3. 兼容性的问题，ie8以前的浏览器不支持。
+小图标可以使用base64来引入
+
+```
+#### 25.'display'、'position'和'float'的相互关系？
+```
+1. 首先我们判断元素的display属性是否为none, 如果为none 则position和float属性的值不影响元素的最后变现
+2. 然后判断position的值是否为absolute或者fixed 如果是则float 失效，  并且display的 值应该被设置为table或者block 具体需要看初始转换值
+3. 如果positon的值不为absolute或者fixed， 则判断flaot的属性是否为none， 如果不是 则display的值按上面的转换。 注意如果position值为realitive 并且flaot属性存在
+ 则relative相对于浮动后的定位
+ 
+ 如果 'float' 的值不是 "none"，该框浮动并且 'display' 会被按照转换对应表设置。
+
+
+4. 如果float的值为none 则判断元素是否是根元素。 如果是根元素display值按上面转换规则。 如果不是  则保持指定的display属性值不变
+
+总的来说 类似于优先级  position 为absolute或者fixed 优先级最高 有它存在的时候 浮动不起作用  display值也需要转换。 其次元素的float特性值不为none的时候
+或者他是根元素的时候。 调整display的值。。  最后 非根元素并且非浮动元素  并且非绝对定位元素 display特性同设置值
+
+```
+#### 26.margin重叠问题的理解
+相关知识点：
+```
+块级元素的上外边距和下外边距有时候会合并为单个边距，这种现象为margin合并
+产生折叠的必要条件 margin必须是相邻的
+而根据w3c规范 两个margin是邻接的必须满足以下条件：
+*必须是处于常规文档流（非float和绝对定位的块级盒子） 并且同处于一个bfc当中
+*没有线盒 没用空隙 没有padding和border将他们分隔开
+*都属于垂直方向上的相邻外边距 可以是下面任意一种情况
+* 元素的mtop与其第一个常规文档流的子元素的mtop
+*元素的margin-bottom与其下一个常规文档流的兄弟元素的margin-top
+*height为auto的元素的margin-bottom与其最后一个常规文档流的子元素的margin-bottom
+*高度为0并且最小高度也为0，不包含常规文档流的子元素，并且自身没有建立新的BFC的元素的margin-top
+和margin-bottom
+
+margin合并三种场景：
+1. 相邻兄弟元素margin合并
+解决办法： 设置块状格式化元素上下文BFC
+
+2. 父级和第一个/最后一个子元素的margin合并
+
+解决办法：
+父元素设置为块状格式化上下文元素；
+•父元素设置border-top值；
+•父元素设置padding-top值；
+•父元素和第一个子元素之间添加内联元素进行分隔。
+
+对于margin-bottom合并，可以进行如下操作（满足一个条件即可）：
+•父元素设置为块状格式化上下文元素；
+•父元素设置border-bottom值；
+•父元素设置padding-bottom值；
+•父元素和最后一个子元素之间添加内联元素进行分隔；
+•父元素设置height、min-height或max-height。
+
+3. 空块级元素的margin合并
+ 解决办法：
+
+ 设置垂直方向的border / pading
+ 里面添加内联元素（空格没用）
+ 设置height或者min-height
+```
+
+回答：
+```
+margin重叠时指垂直方向 两个相邻元素的margin发生重叠的情况
+一般来说可以分为四种情形：
+1.相邻兄弟元素的mbottom和margin-top值发生重叠，可以设置其中一个元素为BFC解决
+2.父元素的mtop和子元素的mtop发生重叠，他们发生的重叠原因因为是相邻的  所以可以通过这一点来解决问题我们可以为父元素这是boder-top/padding-top值
+来分隔他们 我们也可以为父元素设置BFC来解决
+3. 高度为auto 父元素的mbottom和子元素的margin-bottom重叠， 重叠原因是因为他们相邻 另一个是父元素高度不固定 我们可以设置父元素的border-bottom。padding-bottom隔绝他们 或者设置父元素的最小高度解决 还有设置父元素为BFC最简单
+
+4. 是没有内容的元素，自身的margin-top和margin-bottom发生的重叠。我们可以通过为其设置border、pa
+dding或者高度来解决这个问题。
+
+```
