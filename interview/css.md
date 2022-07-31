@@ -280,7 +280,7 @@ div {
 ```
 -水平垂直居中四
 ```css
-/*利用text-align:center和vertical-align:middle属性*/ 使用:before元素
+/*利用text-align:center和vertical-align:middle属性*/ 使用:before元素 撑起高度
 .container {
   position: fixed;
   top: 0;
@@ -319,7 +319,7 @@ div {
 2. 利用绝对定位 设置四个方向的值都为0 并将margin:auto 由于宽高固定，因此对应方向实现平分，可以实现水
 平和垂直方向上的居中。
 3. 利用绝对定位， 先将元素left top设置50% 通过margin 负值调整元素的中心点到中心页面
-4. 利用绝对定位，先将元素的左上角通过top:50%和left:50%定位到页面的中心，然后再通过translate来调整元素
+4. 利用绝对定位，先将元素的左上角通过top:50%和left:50%定位到页面的中心，然后再通过tranform来调整元素
 的中心点到页面的中心。
 5. 使用flex布局，通过align-items:center和justify-content:center设置容器的垂直和水平方向上为居中对
 齐，然后它的子元素也可以实现垂直和水平的居中。
