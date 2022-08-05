@@ -603,3 +603,101 @@ preventDefault (event){
 
 使用事件代理我们可以不必要为每一个子元素都绑定一个监听事件，这样减少了内存上的消耗。并且使用事件代理我们还可以实现事件的动态绑定，比如说新增了一个子节点，我们并不需要单独地为它添加一个监听事件，它所发生的事件会交给父元素中的监听函数来处理。
 ```
+#### 45. ["1", "2", "3"].map(parseInt) 答案是多少？
+```
+parseInt() 函数能解析一个字符串，并返回一个整数，需要两个参数 (val, radix)，其中 radix 表示要解析的数字的基数。（该值介于 2 ~ 36 之间，并且字符串中的数字不能大于 radix 才能正确返回数字结果值）。
+
+
+此处 map 传了 3 个参数 (element, index, array)，默认第三个参数被忽略掉，因此三次传入的参数分别为 "1-0", "2-1", "3-2"
+
+因为字符串的值不能大于基数，因此后面两次调用均失败，返回 NaN ，第一次基数为 0 ，按十进制解析返回 1。
+```
+#### 46. 什么是闭包，为什么要用它？
+```
+闭包是指有权访问另一个函数作用域中变量的函数，创建闭包的最常见的方式就是在一个函数内创建另一个函数，创建的函数可以
+访问到当前函数的局部变量。
+
+闭包有两个常用的用途。
+
+闭包的第一个用途是使我们在函数外部能够访问到函数内部的变量。通过使用闭包，我们可以通过在外部调用闭包函数，从而在外
+部访问到函数内部的变量，可以使用这种方法来创建私有变量。
+
+函数的另一个用途是使已经运行结束的函数上下文中的变量对象继续留在内存中，因为闭包函数保留了这个变量对象的引用，所以
+这个变量对象不会被回收。
+
+其实闭包的本质就是作用域链的一个特殊的应用，只要了解了作用域链的创建过程，就能够理解闭包的实现原理。
+```
+
+#### 47. javascript 代码中的 "use strict"; 是什么意思 ? 使用它区别是什么？
+```
+use strict 指的是严格运行模式，在这种模式对 js 的使用添加了一些限制。比如说禁止 this 指向全局对象，还有禁止使
+用 with 语句等。设立严格模式的目的，主要是为了消除代码使用中的一些不安全的使用方式，也是为了消除 js 语法本身的一
+些不合理的地方，以此来减少一些运行时的怪异的行为。同时使用严格运行模式也能够提高编译的效率，从而提高代码的运行速度。
+我认为严格模式代表了 js 一种更合理、更安全、更严谨的发展方向。
+
+```
+#### 48. 如何判断一个对象是否属于某个类？
+```
+第一种方式是使用 instanceof 运算符来判断构造函数的 prototype 属性是否出现在对象的原型链中的任何位置。
+
+第二种方式可以通过对象的 constructor 属性来判断，对象的 constructor 属性指向该对象的构造函数，但是这种方式不是很安全，因为 constructor 属性可以被改写。
+
+第三种方式，如果需要判断的是某个内置的引用类型的话，可以使用 Object.prototype.toString() 方法来打印对象的
+[[Class]] 属性来进行判断。
+```
+#### 49.. instanceof 的作用？
+```js
+// instanceof 运算符用于判断构造函数的 prototype 属性是否出现在对象的原型链中的任何位置。
+// 实现：
+
+function myInstanceof(left, right) {
+  let proto = Object.getPrototypeOf(left), // 获取对象的原型
+    prototype = right.prototype; // 获取构造函数的 prototype 对象
+
+  // 判断构造函数的 prototype 对象是否在对象的原型链上
+  while (true) {
+    if (!proto) return false;
+    if (proto === prototype) return true;
+
+    proto = Object.getPrototypeOf(proto);
+  }
+}
+
+```
+#### 50. new 操作符具体干了什么呢？如何实现？
+```
+// （1）首先创建了一个新的空对象
+// （2）设置原型，将对象的原型设置为函数的 prototype 对象。
+// （3）让函数的 this 指向这个对象，执行构造函数的代码（为这个新对象添加属性）
+// （4）判断函数的返回值类型，如果是值类型，返回创建的对象。如果是引用类型，就返回这个引用类型的对象。
+
+// 实现:
+
+function objectFactory() {
+  let newObject = null,
+    constructor = Array.prototype.shift.call(arguments),
+    result = null;
+
+  // 参数判断
+  if (typeof constructor !== "function") {
+    console.error("type error");
+    return;
+  }
+
+  // 新建一个空对象，对象的原型为构造函数的 prototype 对象
+  newObject = Object.create(constructor.prototype);
+
+  // 将 this 指向新建对象，并执行函数
+  result = constructor.apply(newObject, arguments);
+
+  // 判断返回对象
+  let flag =
+    result && (typeof result === "object" || typeof result === "function");
+
+  // 判断返回结果
+  return flag ? result : newObject;
+}
+
+// 使用方法
+// objectFactory(构造函数, 初始化参数);
+```
