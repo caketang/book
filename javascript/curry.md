@@ -42,7 +42,7 @@ __高阶实现__
   //高阶es6实现
   const curry = fn => judge = (...args) => args.length === fn.length ? fn(...args) : arg => judge( ...args,arg) 
 ```
-
+//const curry = fn=> judge = (...args)=> args.length === fn.length? fn(..args): arg => judge(...args, arg)
 
 # 常见用法
 
