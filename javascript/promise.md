@@ -93,6 +93,7 @@ class MyPromise {
             }
             switch (_status) {
                 case PENDING:
+                  
                     this._fuilfilledQuenes.push(fulfiled)
                     this._rejectedQuenes.push(rejected)
                     break;
