@@ -93,7 +93,7 @@ class MyPromise {
             }
             switch (_status) {
                 case PENDING:
-                  
+
                     this._fuilfilledQuenes.push(fulfiled)
                     this._rejectedQuenes.push(rejected)
                     break;
@@ -182,42 +182,5 @@ async function b(){
 
 ```js
 
-class promises {
-  constructor(handle)
-  {
-
-  }
-  reselove(val){
-    if(this.status == PENDING){
-      
-      let run =>()=>{
-        this.val = val
-        this.status = FULFILLED
-        let cb = null
-        while(cb = this.fuilfilledQuenes.shift())
-        {
-          cb(val)
-        }
-      }
-
-    }
-    setTimeout(()=> run(),0)
-  }
-  reject(val){
-    if(this.status == PENDING){
-      
-      let run =>()=>{
-        this.val = val
-        this.status = REJECTED
-        let cb = null
-        while(cb = this.fuilfilledQuenes.shift())
-        {
-          cb(val)
-        }
-      }
-
-    }
-    setTimeout(()=> run(),0)
-  }
 }
 ```
