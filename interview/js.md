@@ -2248,4 +2248,152 @@ var singleton=function(fn){
 ```
 #### 145. 观察者模式和发布订阅模式有什么不同？
 ```
+发布订阅模式其实属于广义上的观察者模式
+
+在观察者模式中，观察者需要直接订阅目标事件。在目标发出内容改变的事件后，直接接收事件并作出响应。
+观察者模式 定义了对象间一种一对多的依赖关系，当目标对象 Subject 的状态发生改变时，所有依赖它的对象 Observer 都会得到通知。
+模式特征
+一个目标者对象 Subject，拥有方法：添加 / 删除 / 通知 Observer；
+多个观察者对象 Observer，拥有方法：接收 Subject 状态变更通知并处理；
+目标对象 Subject 状态变更时，通知所有 Observer。
+
+而在发布订阅模式中，发布者和订阅者之间多了一个调度中心。调度中心一方面从发布者接收事件，另一方面向订阅者发布事件，订阅者需要在调度中心中订阅事件。通过调度中心实现了发布者和订阅者关系的解耦。使用发布订阅者模式更利于我们代码的可维护性。
+```
+```js 
+// 目标者类   观察者模式
+class Subject {
+  constructor() {
+    this.observers = [];  // 观察者列表
+  }
+  // 添加
+  add(observer) {
+    this.observers.push(observer);
+  }
+  // 删除
+  remove(observer) {
+    let idx = this.observers.findIndex(item => item === observer);
+    idx > -1 && this.observers.splice(idx, 1);
+  }
+  // 通知
+  notify() {
+    for (let observer of this.observers) {
+      observer.update();
+    }
+  }
+}
+
+// 观察者类
+class Observer {
+  constructor(name) {
+    this.name = name;
+  }
+  // 目标对象更新时触发的回调
+  update() {
+    console.log(`目标者通知我更新了，我是：${this.name}`);
+  }
+}
+
+// 实例化目标者
+let subject = new Subject();
+
+// 实例化两个观察者
+let obs1 = new Observer('前端开发者');
+let obs2 = new Observer('后端开发者');
+
+// 向目标者添加观察者
+subject.add(obs1);
+subject.add(obs2);
+
+// 目标者通知更新
+subject.notify();  
+// 输出：
+// 目标者通知我更新了，我是前端开发者
+// 目标者通知我更新了，我是后端开发者
+
+// 优势
+// 目标者与观察者，功能耦合度降低，专注自身功能逻辑；
+// 观察者被动接收更新，时间上解耦，实时接收目标者更新状态。
+// 缺点
+// 但却不能对事件通知进行细分管控，如 “筛选通知”，“指定主题事件通知” 。
+
+
+```
+```js 
+//发布订阅
+let pubSubs = {
+  list:{},
+  subscribe(key,fn){
+    if(!this.list[key]){
+      this.list[key] = []
+    }
+    this.list[key].push(fn)
+  },
+  publish(key,...arr){
+    for(let fn of this.list[key]){
+      fn.call(this, ...arr)
+    }
+  },
+  unSubscribe(key, fn){
+    let fnList = this.list[key]
+    if(!fnList) return false
+
+    if(!fn){
+       // 不传入指定取消的订阅方法，则清空所有key下的订阅
+      fnList && (fnList.length = 0);
+    } else {
+      fnList.forEach((item,index)=>{
+        if(item===fn){
+          fnList.splice(item,1)
+        }
+      })
+    }
+  }
+}
+//订阅
+pubSubs.subscribe('onwork', time => {
+  console.log(`上班了：${time}`);
+})
+pubSubs.subscribe('offwork', time => {
+  console.log(`下班了：${time}`);
+})
+pubSubs.subscribe('launch', time => {
+  console.log(`吃饭了：${time}`);
+})
+
+// 发布
+pubSubs.publish('offwork', '18:00:00'); 
+pubSubs.publish('launch', '12:00:00');
+
+// 取消订阅
+pubSubs.unSubscribe('onwork');
+```
+
+#### 146. Vue 的生命周期是什么？
+```
+Vue 的生命周期指的是组件从创建到销毁的一系列的过程，被称为 Vue 的生命周期。通过提供的 Vue 在生命周期各个阶段的钩子函数，我们可以很好的在 Vue 的各个生命阶段实现一些操作。
+```
+
+#### 147. Vue 的各个生命阶段是什么？
+```
+Vue 一共有8个生命周期阶段 创建前 创建后 挂载前 挂载后 更新前 更新后 销毁前 销毁后  每个阶段都有一个钩子函数
+
+Vue 一共有8个生命阶段，分别是创建前、创建后、加载前、加载后、更新前、更新后、销毁前和销毁后，每个阶段对应了一个生命周期的钩子函数。
+
+（1）beforeCreate 钩子函数，在实例初始化之后，在数据监听和事件配置之前触发。因此在这个事件中我们是获取不到 data 数据的。
+
+（2）created 钩子函数，在实例创建完成后触发，此时可以访问 data、methods 等属性。但这个时候组件还没有被挂载到页面中去，所以这个时候访问不到 $el 属性。一般我们可以在这个函数中进行一些页面初始化的工作，比如通过 ajax 请求数据来对页面进行初始化。
+
+（3）beforeMount 钩子函数，在组件被挂载到页面之前触发。在 beforeMount 之前，会找到对应的 template，并编译成 render 函数。
+
+（4）mounted 钩子函数，在组件挂载到页面之后触发。此时可以通过 DOM API 获取到页面中的 DOM 元素。
+
+（5）beforeUpdate 钩子函数，在响应式数据更新时触发，发生在虚拟 DOM 重新渲染和打补丁之前，这个时候我们可以对可能会被移除的元素做一些操作，比如移除事件监听器。
+
+（6）updated 钩子函数，虚拟 DOM 重新渲染和打补丁之后调用。
+
+（7）beforeDestroy 钩子函数，在实例销毁之前调用。一般在这一步我们可以销毁定时器、解绑全局事件等。
+
+（8）destroyed 钩子函数，在实例销毁之后调用，调用后，Vue 实例中的所有东西都会解除绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
+
+当我们使用 keep-alive 的时候，还有两个钩子函数，分别是 activated 和 deactivated 。用 keep-alive 包裹的组件在切换时不会进行销毁，而是缓存到内存中并执行 deactivated 钩子函数，命中缓存渲染后会执行 actived 钩子函数。
 ```
