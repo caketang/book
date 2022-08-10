@@ -1700,6 +1700,23 @@ obj.c=obj
 var deepcopyObj2 = deepCopyMap(obj);
 //deepcopyObj2.c.c1=666
 console.log(obj,deepcopyObj2);
+
+
+function deepCopyMap1(obj, map = new Map){
+  if(typeof obj !== 'object') return obj
+  let newObject = Array.isArray(obj)? [] :{}
+  if(map.get(obj)){
+    return map.get(obj)
+  }
+  map.set(obj, newObject)
+  for(let key in obj){
+    if(obj.hasOwnProperty(key)){
+      newObject[key] = deepCopyMap1(obj[key], map)
+    }
+
+  }
+  return newObject
+}
 ```
 
 ```
