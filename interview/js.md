@@ -2471,3 +2471,348 @@ watch 监听到值的变化就会执行回调，在回调中可以进行一些�
 ```
 如果你需要在组件切换的时候，保存一些组件的状态防止多次渲染，就可以使用 keep-alive 组件包裹需要保存的组件。
 ```
+#### 156156. vue 中 mixin 和 mixins 区别？
+```
+mixin 用于全局混入，会影响到每个组件实例。
+
+mixins 应该是我们最常使用的扩展组件的方式了。如果多个组件中有相同的业务逻辑，就可以将这些逻辑剥离出来，通过 mixins 混入代码，比如上拉下拉加载数据这种逻辑等等。另外需要注意的是 mixins 混入的钩子函数会先于组件内的钩子函数执行，并且在遇到同名选项的时候也会有选择性的进行合并s
+```
+#### 157.157. 开发中常用的几种 Content-Type ？
+```
+（1）application/x-www-form-urlencoded
+
+浏览器的原生 form 表单，如果不设置 enctype 属性，那么最终就会以 application/x-www-form-urlencoded 方式提交数据。该种方式提交的数据放在 body 里面，数据按照 key1=val1&key2=val2 的方式进行编码，key 和 val 都进行了 URL
+转码。
+
+（2）multipart/form-data
+
+该种方式也是一个常见的 POST 提交方式，通常表单上传文件时使用该种方式。
+
+（3）application/json
+
+告诉服务器消息主体是序列化后的 JSON 字符串。
+
+（4）text/xml
+
+该种方式主要用来提交 XML 格式的数据。
+```
+#### 158. 如何封装一个 javascript 的类型判断函数？
+```
+function getType(value) {
+  // 判断数据是 null 的情况
+  if (value === null) {
+    return value + "";
+  }
+
+  // 判断数据是引用类型的情况
+  if (typeof value === "object") {
+    let valueClass = Object.prototype.toString.call(value),
+      type = valueClass.split(" ")[1].split("");
+
+    type.pop();
+
+    return type.join("").toLowerCase();
+  } else {
+    // 判断数据是基本数据类型的情况和函数的情况
+    return typeof value;
+  }
+}
+```
+#### 159. 如何判断一个对象是否为空对象？
+```
+function checkNullObj(obj) {
+  return Object.keys(obj).length === 0 && Object.getOwnPropertySymbols(obj).length === 0;
+}
+```
+
+#### 160.. 使用闭包实现每隔一秒打印 1,2,3,4
+```js
+// 使用闭包实现
+for (var i = 0; i < 5; i++) {
+  (function(i) {
+    setTimeout(function() {
+      console.log(i);
+    }, i * 1000);
+  })(i);
+}
+
+// 使用 let 块级作用域
+
+for (let i = 0; i < 5; i++) {
+  setTimeout(function() {
+    console.log(i);
+  }, i * 1000);
+}
+```
+#### 161. 手写一个 jsonp
+```js
+
+// 简单的
+function jsonp(req){
+    var script = document.createElement('script');
+    var url = req.url + '?callback=' + req.callback.name;
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script); 
+}
+
+// jsonp
+function jsonp(url, params, callback) {
+  // 判断是否含有参数
+  let queryString = url.indexOf("?") === -1 ? "?" : "&";
+
+  // 添加参数
+  for (var k in params) {
+    if (params.hasOwnProperty(k)) {
+      queryString += k + "=" + params[k] + "&";
+    }
+  }
+
+  // 处理回调函数名
+  let random = Math.random()
+      .toString()
+      .replace(".", ""),
+    callbackName = "myJsonp" + random;
+
+  // 添加回调函数
+  queryString += "callback=" + callbackName;
+
+  // 构建请求
+  let scriptNode = document.createElement("script");
+  scriptNode.src = url + queryString;
+
+  window[callbackName] = function() {
+    // 调用回调函数
+    callback(...arguments);
+
+    // 删除这个引入的脚本
+    document.getElementsByTagName("head")[0].removeChild(scriptNode);
+  };
+
+  // 发起请求
+  document.getElementsByTagName("head")[0].appendChild(scriptNode);
+}
+```
+#### 162. 手写一个观察者模式？
+
+```
+
+```
+#### 163. EventEmitter 实现
+```js
+class EventEmitter {
+  constructor() {
+    this.events = {};
+  }
+
+  on(event, callback) {
+    let callbacks = this.events[event] || [];
+    callbacks.push(callback);
+    this.events[event] = callbacks;
+
+    return this;
+  }
+
+  off(event, callback) {
+    let callbacks = this.events[event];
+    this.events[event] = callbacks && callbacks.filter(fn => fn !== callback);
+
+    return this;
+  }
+
+  emit(event, ...args) {
+    let callbacks = this.events[event];
+    callbacks.forEach(fn => {
+      fn(...args);
+    });
+
+    return this;
+  }
+
+  once(event, callback) {
+    let wrapFun = (...args) => {
+      callback(...args);
+
+      this.off(event, wrapFun);
+    };
+    this.on(event, wrapFun);
+
+    return this;
+  }
+}
+```
+
+#### 164. 一道常被人轻视的前端 JS 面试题
+```
+function Foo() {
+  getName = function() {
+    alert(1);
+  };
+  return this;
+}
+Foo.getName = function() {
+  alert(2);
+};
+Foo.prototype.getName = function() {
+  alert(3);
+};
+var getName = function() {
+  alert(4);
+};
+function getName() {
+  alert(5);
+}
+
+//请写出以下输出结果：
+Foo.getName(); // 2
+getName(); // 4
+Foo().getName(); // 1
+getName(); // 1
+new Foo.getName(); // 2
+new Foo().getName(); // 3
+new new Foo().getName(); // 3
+```
+
+#### 165. 如何确定页面的可用性时间，什么是 Performance API？
+
+```
+Performance API 用于精确度量、控制、增强浏览器的性能表现。这个 API 为测量网站性能，提供以前没有办法做到的精度。
+
+使用 getTime 来计算脚本耗时的缺点，首先，getTime方法（以及 Date 对象的其他方法）都只能精确到毫秒级别（一秒的千分之一），想要得到更小的时间差别就无能为力了。其次，这种写法只能获取代码运行过程中的时间进度，无法知道一些后台事件的时间进度，比如浏览器用了多少时间从服务器加载网页。
+
+为了解决这两个不足之处，ECMAScript 5引入“高精度时间戳”这个 API，部署在 performance 对象上。它的精度可以达到1毫秒
+的千分之一（1秒的百万分之一）。
+
+navigationStart：当前浏览器窗口的前一个网页关闭，发生 unload 事件时的 Unix 毫秒时间戳。如果没有前一个网页，则等于 fetchStart 属性。
+
+loadEventEnd：返回当前网页 load 事件的回调函数运行结束时的 Unix 毫秒时间戳。如果该事件还没有发生，返回 0。
+
+var t = performance.timing;
+var pageLoadTime = t.loadEventEnd - t.navigationStart;
+```
+#### 167. js 语句末尾分号是否可以省略？
+```
+在 ECMAScript 规范中，语句结尾的分号并不是必需的。但是我们一般最好不要省略分号，因为加上分号一方面有
+利于我们代码的可维护性，另一方面也可以避免我们在对代码进行压缩时出现错误。
+```
+#### 168. Object.assign()
+```
+Object.assign() 方法用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。
+
+```
+
+#### 169. Math.ceil 和 Math.floor
+```
+Math.ceil() === 向上取整，函数返回一个大于或等于给定数字的最小整数。
+
+Math.floor() === 向下取整，函数返回一个小于或等于给定数字的最大整数。
+
+```
+#### 170. Math.ceil 和 Math.floor
+
+```
+for (var i = 0, j = 0; i < 5, j < 9; i++, j++) {
+  console.log(i, j);
+}
+
+// 当判断语句含有多个语句时，以最后一个判断语句的值为准，因此上面的代码会执行 10 次。
+// 当判断语句为空时，循环会一直进行。
+```
+
+#### 171. 一个列表，假设有 100000 个数据，这个该怎么办？
+```
+我们需要思考的问题：该处理是否必须同步完成？数据是否必须按顺序完成？
+
+解决办法：
+
+（1）将数据分页，利用分页的原理，每次服务器端只返回一定数目的数据，浏览器每次只对一部分进行加载。
+
+（2）使用懒加载的方法，每次加载一部分数据，其余数据当需要使用时再去加载。
+
+（3）使用数组分块技术，基本思路是为要处理的项目创建一个队列，然后设置定时器每过一段时间取出一部分数据，然后再使用定时器取出下一个要处理的项目进行处理，接着再设置另一个定时器。
+```
+#### 172. js 中倒计时的纠偏实现？
+```
+在前端实现中我们一般通过 setTimeout 和 setInterval 方法来实现一个倒计时效果。但是使用这些方法会存在时间偏差的问题，这是由于 js 的程序执行机制造成的，setTimeout 和 setInterval 的作用是隔一段时间将回调事件加入到事件队列中，因此事件并不是立即执行的，它会等到当前执行栈为空的时候再取出事件执行，因此事件等待执行的时间就是造成误差的原因。
+
+一般解决倒计时中的误差的有这样两种办法：
+
+（1）第一种是通过前端定时向服务器发送请求获取最新的时间差，以此来校准倒计时时间。
+
+（2）第二种方法是前端根据偏差时间来自动调整间隔时间的方式来实现的。这一种方式首先是以 setTimeout 递归的方式来实现倒计时，然后通过一个变量来记录已经倒计时的秒数。每一次函数调用的时候，首先将变量加一，然后根据这个变量和每次的间隔时间，我们就可以计算出此时无偏差时应该显示的时间。然后将当前的真实时间与这个时间相减，这样我们就可以得到时间的偏差大小，因此我们在设置下一个定时器的间隔大小的时候，我们就从间隔时间中减去这个偏差大小，以此来实现由于程序执行所造成的时间误差的纠正。
+```
+#### 173. 进程间通信的方式？
+
+```
+1.管道通信
+2.消息队列通信
+3.信号量通信
+4.信号通信
+5.共享内存通信
+6.套接字通信
+
+```
+#### 174. 如何查找一篇英文文章中出现频率最高的单词？
+```js
+function findMostWord(article) {
+  // 合法性判断
+  if (!article) return;
+
+  // 参数处理
+  article = article.trim().toLowerCase();
+
+  let wordList = article.match(/[a-z]+/g),
+    visited = [],
+    maxNum = 0,
+    maxWord = "";
+
+  article = " " + wordList.join("  ") + " ";
+
+  // 遍历判断单词出现次数
+  wordList.forEach(function(item) {
+    if (visited.indexOf(item) < 0) {
+
+      // 加入 visited 
+      visited.push(item);
+
+      let word = new RegExp(" " + item + " ", "g"),
+        num = article.match(word).length;
+
+      if (num > maxNum) {
+        maxNum = num;
+        maxWord = item;
+      }
+    }
+  });
+
+  return maxWord + "  " + maxNum;
+}
+```
+
+#### 175. ele.getElementsByClassName和ele.querySelectorAll的区别？
+```
+element.getElementsByClassName 返回一个即时更新（动态的）HTMLCollection
+element.querySelectorAll 返回一个非即时更新（静态的） NodeList
+// 先说什么叫即时更新，（前者是动态的，改变 DOM 结构会同步，后者只会记录调用 api 时的结果，不懂可以看下面的例子）
+<div id="parent">
+  <p class="p">1</p>
+  <p class="p">2</p>
+  <p class="p">3</p>
+</div>
+<script>
+let list1 = parent.getElementsByClassName('p');
+let list2 = parent.querySelectorAll('.p');
+console.log(list1.length1); // 3
+console.log(list2.length1); // 3
+let newP = docuemnt.createElement("p")
+newP.classList.add('p');
+parent.appendChild(newP);
+console.log(list1.length1); // 4 (即时更新)
+console.log(list2.length1); // 3（非即时更新）
+</script>
+// 在说下返回值
+// HTMLCollection 和 NodeList 都是类数组形式
+如下一个 div 可以看成是 HTMLDivElement 的实例，其中 Node 的集合为 NodeList；Element 的集合为 HTMLCollection
+EventTarget - Node - Element - HTMLElement - HTMLDivElement<br>
+EventTarget - Node - Element - SVGElement - SVGPathElement<br>
+
+```
