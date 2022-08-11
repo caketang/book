@@ -2366,6 +2366,19 @@ let pubSubs = {
     }
   }
 }
+let pubSubs = {
+  list:{},
+  subscribe(key,fn){
+    
+  },
+  publish(key,...arr){
+    
+  }
+   
+  unSubscribe(key, fn){
+    
+  }
+}
 //订阅
 pubSubs.subscribe('onwork', time => {
   console.log(`上班了：${time}`);
